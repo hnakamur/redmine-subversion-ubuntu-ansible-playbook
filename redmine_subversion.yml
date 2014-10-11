@@ -1,0 +1,5 @@
+- hosts: ubuntu
+  gather_facts: yes
+  sudo: yes
+  roles:
+    - apt_update
