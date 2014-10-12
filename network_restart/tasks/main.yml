@@ -1,0 +1,2 @@
+---
+- shell: ifdown {{ network_restart_interface }} && ifup {{ network_restart_interface }}

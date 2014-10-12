@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Hiroaki Nakamura
+  description: restart network
+  license: MIT
+  min_ansible_version: 1.2
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+  - networking
+dependencies: []
