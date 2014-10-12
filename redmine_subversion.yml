@@ -5,3 +5,4 @@
     - apt_update
     - ntp
     - sysstat
+    - apache
