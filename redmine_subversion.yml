@@ -4,3 +4,4 @@
   roles:
     - apt_update
     - ntp
+    - sysstat
