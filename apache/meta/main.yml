@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Hiroaki Nakamura
-  description: Set up Apache2
+  description: Set up Apache web server
   license: MIT
   min_ansible_version: 1.2
   platforms:

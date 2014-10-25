@@ -1,0 +1,10 @@
+---
+- file: path=/opt/monit/redmine state=directory
+
+- template: src={{ item }}.j2 dest=/opt/monit/redmine/{{ item }} mode=0755
+  with_items:
+  - start_unicorn.sh
+  - stop_unicorn.sh
+  notify: monit restart redmine
+
+- template: src=monit_redmine.j2 dest=/etc/monit/conf.d/redmine

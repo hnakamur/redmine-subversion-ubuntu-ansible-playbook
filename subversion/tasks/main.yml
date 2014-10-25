@@ -15,7 +15,14 @@
 
 - file: path={{ subversion_parent_path }} state=directory owner=www-data group=www-data
 
-- template: src=dav_svn.conf.j2 dest=/etc/apache2/mods-available/dav_svn.conf
+- file: path={{ subversion_apache_docroot }} state=directory owner=www-data group=www-data
+
+- template: src=apache_subversion_site.conf.j2 dest=/etc/apache2/sites-available/subversion.conf
+  notify: reload apache2
+
+- command: a2ensite subversion
+    creates=/etc/apache2/sites-enabled/subversion.conf
+  notify: reload apache2
 
 - apache2_module: name={{ item }} state=present
   notify: reload apache2

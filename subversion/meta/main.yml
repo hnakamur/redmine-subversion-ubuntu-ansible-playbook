@@ -11,4 +11,4 @@ galaxy_info:
   categories:
   - development
 dependencies:
-  - apache2
+- apache

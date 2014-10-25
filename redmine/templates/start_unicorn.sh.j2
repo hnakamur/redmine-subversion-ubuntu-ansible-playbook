@@ -1,0 +1,6 @@
+#!/bin/sh
+PATH={{ ruby_bin_dir }}:$PATH
+export PATH
+
+cd {{ redmine_install_dir }}
+RAILS_ENV={{ redmine_rails_env }} bundle exec unicorn -c {{ redmine_install_dir }}/config/unicorn/{{ redmine_unicorn_config_filename }} -E {{ redmine_unicorn_env }} -D

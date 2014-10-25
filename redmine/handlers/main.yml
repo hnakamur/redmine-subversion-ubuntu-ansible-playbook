@@ -1,2 +1,6 @@
 ---
-# handlers file for redmine
+- name: monit restart redmine
+  command: monit restart redmine
+
+- name: reload apache2
+  service: name=apache2 state=reloaded

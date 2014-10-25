@@ -1,6 +1,14 @@
 ---
 - apt: name=apache2 state=present
 
+- file: path={{ apache_docroot }} state=directory owner=www-data group=www-data mode=0755
+
+- template: src=security.conf.j2 dest=/etc/apache2/conf-available/security.conf owner=root group=root mode=0644
+
+- command: a2enconf security
+    creates=/etc/apache2/conf-enabled/security.conf
+  notify: reload apache2
+
 - template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf owner=root group=root mode=0644
 
 - command: a2ensite 000-default
@@ -8,6 +16,6 @@
   notify: reload apache2
 
 - include: ssl.yml
-  when: apache2_ssl_enabled
+  when: apache_ssl_enabled
 
 - service: name=apache2 state=started enabled=yes

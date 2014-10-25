@@ -1,4 +1,9 @@
 ---
 - apt: name=monit state=present
 
+- template: src=monitrc.j2 dest=/etc/monit/monitrc owner=root group=root mode=0600
+
+- template: src=monit_httpd.j2 dest=/etc/monit/conf.d/monit_httpd owner=root group=root
+  notify: reload monit
+
 - service: name=monit state=started enabled=yes

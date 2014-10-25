@@ -1,2 +1,3 @@
 ---
-# defaults file for monit
+monit_check_interval_seconds: 120
+monit_check_interval_comment: 2-minute intervals

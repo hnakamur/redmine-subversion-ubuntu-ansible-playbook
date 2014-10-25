@@ -1,0 +1,14 @@
+---
+- command: a2enmod {{ item }}
+    creates=/etc/apache2/mods-enabled/{{ item }}.conf
+  notify: reload apache2
+  with_items:
+  - proxy_http
+  - headers
+
+- template: src=apache_redmine_site.conf.j2 dest=/etc/apache2/sites-available/redmine.conf owner=root group=root mode=0644
+  notify: reload apache2
+
+- command: a2ensite redmine
+    creates=/etc/apache2/sites-enabled/redmine.conf
+  notify: reload apache2

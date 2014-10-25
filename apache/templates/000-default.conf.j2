@@ -1,0 +1,13 @@
+# NOTE: Commented out after seeing the following warning.
+# AH00548: NameVirtualHost has no effect and will be removed in the next release /etc/apache2/sites-enabled/000-default.conf:1
+# NameVirtualHost *:80
+
+<VirtualHost _default_:80>
+	ServerAdmin {{ apache_server_admin }}
+	DocumentRoot {{ apache_docroot }}
+
+	ErrorLog {{ apache_default_error_log }}
+	CustomLog {{ apache_default_access_log }} {{ apache_customlog_format }}
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet

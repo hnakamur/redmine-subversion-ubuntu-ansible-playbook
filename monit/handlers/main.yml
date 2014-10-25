@@ -1,2 +1,3 @@
 ---
-# handlers file for monit
+- name: reload monit
+  service: name=monit state=reloaded

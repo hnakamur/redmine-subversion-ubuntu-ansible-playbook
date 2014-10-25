@@ -1,73 +1,40 @@
 <IfModule mod_ssl.c>
-	<VirtualHost _default_:443>
-		ServerAdmin webmaster@localhost
+	<VirtualHost *:443>
+		ServerName {{ redmine_apache_server_name }}
+		ServerAdmin {{ redmine_apache_server_admin }}
 
-		DocumentRoot {{ apache2_docroot }}
+		DocumentRoot {{ redmine_docroot }}
+		<Directory "{{ redmine_docroot }}">
+			Options FollowSymLinks
+			AllowOverride None
+			Order allow,deny
+			Allow from all
+		</Directory>
 
-		# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-		# error, crit, alert, emerg.
-		# It is also possible to configure the loglevel for particular
-		# modules, e.g.
-		#LogLevel info ssl:warn
+		<Location / >
+			AuthType Basic
+			AuthName "{{ redmine_auth_name }}"
+			AuthUserFile {{ redmine_auth_user_file }}
+			Require valid-user
+		</Location>
 
-		ErrorLog ${APACHE_LOG_DIR}/error.log
-		CustomLog ${APACHE_LOG_DIR}/access.log combined
+		ProxyPass /favicon.ico ! 
+		ProxyPass /help ! 
+		ProxyPass /images ! 
+		ProxyPass /javascripts ! 
+		ProxyPass /plugin_assets ! 
+		ProxyPass /stylesheets ! 
+		ProxyPass /themes ! 
+		ProxyPass / {{ redmine_apache_proxy_pass }}
+		ProxyPassReverse / {{ redmine_apache_proxy_pass_reverse }}
+		RequestHeader set X_FORWARDED_PROTO 'https'
 
-		# For most configuration files from conf-available/, which are
-		# enabled or disabled at a global level, it is possible to
-		# include a line for only one particular virtual host. For example the
-		# following line enables the CGI configuration for this host only
-		# after it has been globally disabled with "a2disconf".
-		#Include conf-available/serve-cgi-bin.conf
+		ErrorLog {{ redmine_apache_error_log_path }}
+		CustomLog {{ redmine_apache_access_log_path }} {{ apache_ssl_customlog_format }}
 
-		#   SSL Engine Switch:
-		#   Enable/Disable SSL for this virtual host.
 		SSLEngine on
-
-		#   A self-signed (snakeoil) certificate can be created by installing
-		#   the ssl-cert package. See
-		#   /usr/share/doc/apache2/README.Debian.gz for more info.
-		#   If both key and certificate are stored in the same file, only the
-		#   SSLCertificateFile directive is needed.
-		SSLCertificateFile	/etc/ssl/certs/ssl-cert-snakeoil.pem
-		SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
-
-		#   Server Certificate Chain:
-		#   Point SSLCertificateChainFile at a file containing the
-		#   concatenation of PEM encoded CA certificates which form the
-		#   certificate chain for the server certificate. Alternatively
-		#   the referenced file can be the same as SSLCertificateFile
-		#   when the CA certificates are directly appended to the server
-		#   certificate for convinience.
-		#SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
-
-		#   Certificate Authority (CA):
-		#   Set the CA certificate verification path where to find CA
-		#   certificates for client authentication or alternatively one
-		#   huge file containing all of them (file must be PEM encoded)
-		#   Note: Inside SSLCACertificatePath you need hash symlinks
-		#		 to point to the certificate files. Use the provided
-		#		 Makefile to update the hash symlinks after changes.
-		#SSLCACertificatePath /etc/ssl/certs/
-		#SSLCACertificateFile /etc/apache2/ssl.crt/ca-bundle.crt
-
-		#   Certificate Revocation Lists (CRL):
-		#   Set the CA revocation path where to find CA CRLs for client
-		#   authentication or alternatively one huge file containing all
-		#   of them (file must be PEM encoded)
-		#   Note: Inside SSLCARevocationPath you need hash symlinks
-		#		 to point to the certificate files. Use the provided
-		#		 Makefile to update the hash symlinks after changes.
-		#SSLCARevocationPath /etc/apache2/ssl.crl/
-		#SSLCARevocationFile /etc/apache2/ssl.crl/ca-bundle.crl
-
-		#   Client Authentication (Type):
-		#   Client certificate verification type and depth.  Types are
-		#   none, optional, require and optional_no_ca.  Depth is a
-		#   number which specifies how deeply to verify the certificate
-		#   issuer chain before deciding the certificate is not valid.
-		#SSLVerifyClient require
-		#SSLVerifyDepth  10
+		SSLCertificateFile    {{ redmine_apache_ssl_cert_file }}
+		SSLCertificateKeyFile {{ redmine_apache_ssl_key_file }}
 
 		#   SSL Engine Options:
 		#   Set various options for the SSL engine.

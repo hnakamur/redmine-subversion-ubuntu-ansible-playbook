@@ -1,0 +1,13 @@
+---
+apache_docroot: /data/html/default
+apache_ssl_enabled: true
+apache_server_admin: webmaster@localhost
+apache_server_tokens: Prod
+apache_default_error_log: "${APACHE_LOG_DIR}/default_error.log"
+apache_default_access_log: "${APACHE_LOG_DIR}/default_access.log"
+apache_customlog_format: combined
+apache_ssl_default_error_log: "${APACHE_LOG_DIR}/ssl_default_error.log"
+apache_ssl_default_access_log: "${APACHE_LOG_DIR}/ssl_default_access.log"
+apache_ssl_customlog_format: combined
+apache_ssl_cert_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
+apache_ssl_key_file: /etc/ssl/private/ssl-cert-snakeoil.key

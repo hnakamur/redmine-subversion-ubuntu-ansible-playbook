@@ -1,0 +1,12 @@
+---
+- lineinfile: dest={{ redmine_install_dir }}/Gemfile line="gem \"{{ item }}\"" state=present
+  with_items:
+  - unicorn
+  - unicorn-worker-killer
+
+- file: path={{ redmine_install_dir }}/{{ item }} state=directory owner={{ app_user_username }} group={{ app_user_groupname }}
+  with_items:
+  - config/unicorn
+  - tmp/pids
+
+- template: src=production.rb.j2 dest={{ redmine_install_dir }}/config/unicorn/production.rb owner={{ app_user_username }} group={{ app_user_groupname }}

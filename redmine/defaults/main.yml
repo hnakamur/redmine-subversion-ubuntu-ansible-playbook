@@ -1,8 +1,28 @@
 ---
 redmine_version: 2.6.0
 redmine_install_dir: /usr/local/redmine-{{ redmine_version }}
+redmine_basedir_link: /usr/local/redmine
+redmine_docroot: "{{ redmine_basedir_link }}/public"
 redmine_bundle_jobs: 4
 redmine_database_name: redmine
 redmine_database_user: redmine
 redmine_database_password: redmine
+
 redmine_rails_env: production
+redmine_unicorn_pidfile: "{{ redmine_install_dir }}/tmp/pids/unicorn.pid"
+redmine_unicorn_worker_processes: 8
+redmine_unicorn_port: 3000
+redmine_unicorn_config_filename: production.rb
+redmine_unicorn_env: deployment
+
+redmine_auth_name: Redmine project management system
+redmine_auth_user_file: /etc/apache2/dav_svn.passwd
+
+redmine_apache_server_name: 192.168.33.2
+redmine_apache_server_admin: "{{ apache_server_admin }}"
+redmine_apache_ssl_cert_file: "{{ apache_ssl_cert_file }}"
+redmine_apache_ssl_key_file: "{{ apache_ssl_key_file }}"
+redmine_apache_error_log_path: "${APACHE_LOG_DIR}/ssl_redmine_error_log"
+redmine_apache_access_log_path: "${APACHE_LOG_DIR}/ssl_redmine_access_log"
+redmine_apache_proxy_pass: http://localhost:{{ redmine_unicorn_port }}/
+redmine_apache_proxy_pass_reverse: http://localhost:{{ redmine_unicorn_port }}/

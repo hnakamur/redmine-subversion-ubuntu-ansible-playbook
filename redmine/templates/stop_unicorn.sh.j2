@@ -1,0 +1,5 @@
+#!/bin/sh
+pidfile={{ redmine_unicorn_pidfile }}
+if [ -f $pidfile ]; then
+  kill -QUIT `cat $pidfile`
+fi

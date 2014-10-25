@@ -1,0 +1,9 @@
+---
+- apache2_module: name=ssl state=present
+  notify: reload apache2
+
+- template: src=001-default-ssl.conf.j2 dest=/etc/apache2/sites-available/001-default-ssl.conf owner=root group=root mode=0644
+
+- command: a2ensite 001-default-ssl
+    creates=/etc/apache2/sites-enabled/001-default-ssl.conf
+  notify: reload apache2

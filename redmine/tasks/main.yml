@@ -15,25 +15,29 @@
 - postgresql_user: db={{ redmine_database_name }} name={{ redmine_database_user }} password={{ redmine_database_password }} state=present
   sudo_user: postgres
 
+- include: unicorn.yml
 
-- shell: >
-    "{{ ruby_bin_dir }}/bundle" config --jobs | sed -n 's/^Set for your local app[^"]*"\([^"]*\)"/\1/p'
+- shell: bundle config --jobs | sed -n 's/^Set for your local app[^"]*"\([^"]*\)"/\1/p'
     chdir={{ redmine_install_dir }}
   register: redmine_bundle_config_jobs
   changed_when: False
   sudo_user: "{{ app_user_username }}"
+  environment:
+    PATH: "{{ ruby_bin_dir }}:{{ lookup('env', 'PATH') }}"
 
-- command: >
-    "{{ ruby_bin_dir }}/bundle" config --local --jobs {{ redmine_bundle_jobs }}
+- command: bundle config --local --jobs {{ redmine_bundle_jobs }}
     chdir={{ redmine_install_dir }}
   when: redmine_bundle_config_jobs.stdout != {{ redmine_bundle_jobs }}
   sudo_user: "{{ app_user_username }}"
+  environment:
+    PATH: "{{ ruby_bin_dir }}:{{ lookup('env', 'PATH') }}"
 
 
-- command: >
-    "{{ ruby_bin_dir }}/bundle" --path=vendor/bundle --binstubs=vendor/bin
+- command: bundle --path=vendor/bundle --binstubs=vendor/bin
     chdir={{ redmine_install_dir }}
   sudo_user: "{{ app_user_username }}"
+  environment:
+    PATH: "{{ ruby_bin_dir }}:{{ lookup('env', 'PATH') }}"
 
 - command: bundle exec rake generate_secret_token
     chdir={{ redmine_install_dir }}
@@ -49,3 +53,9 @@
   environment:
     PATH: "{{ ruby_bin_dir }}:{{ lookup('env', 'PATH') }}"
     RAILS_ENV: "{{ redmine_rails_env }}"
+
+- file: src={{ redmine_install_dir }} dest={{ redmine_basedir_link }} state=link
+
+- include: monit_unicorn.yml
+
+- include: apache_site.yml
