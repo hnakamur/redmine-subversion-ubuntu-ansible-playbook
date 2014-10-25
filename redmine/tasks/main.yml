@@ -44,7 +44,7 @@
     creates={{ redmine_install_dir }}/config/initializers/secret_token.rb
   sudo_user: "{{ app_user_username }}"
   environment:
-    PATH: "{{ ruby_bin }}:{{ lookup('env', 'PATH') }}"
+    PATH: "{{ ruby_bin_dir }}:{{ lookup('env', 'PATH') }}"
     RAILS_ENV: "{{ redmine_rails_env }}"
 
 - command: bundle exec rake db:migrate
