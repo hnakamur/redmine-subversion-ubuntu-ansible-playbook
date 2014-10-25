@@ -1,8 +1,30 @@
 - hosts: ubuntu
   gather_facts: yes
   sudo: yes
+  vars:
+    ssl_certificate_hostname_fqdn: 192.168.33.2.xip.io
+    subversion_base_dir: /data/svn
+    subversion_parent_path: "{{ subversion_base_dir }}/repos"
+    subversion_auth_user_file: "{{ subversion_base_dir }}/htpasswd"
+    subversion_user_passwords:
+      - { user: hnakamur, password: hogehoge }
+    ruby_version: 2.1.3
   roles:
-    - apt_update
-    - ntp
-    - sysstat
-    - apache
+#    - hostname
+#    - vagrant_user_locale
+#    - resolvconf
+#    - apt_sources
+#    - apt_update
+#    - base_packages
+#    - ntp
+#    - sysstat
+#    - ssl_certificate
+#    - ruby
+#    - app_user
+#    - apache2
+#    - subversion
+#    - role: svn_repo
+#      svn_repo_name: test
+#    - postgresql
+    - redmine
+    - monit

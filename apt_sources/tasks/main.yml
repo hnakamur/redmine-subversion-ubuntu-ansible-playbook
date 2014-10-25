@@ -1,0 +1,2 @@
+---
+- template: src=sources.list.j2 dest=/etc/apt/sources.list

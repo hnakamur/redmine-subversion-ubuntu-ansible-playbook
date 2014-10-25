@@ -1,0 +1,7 @@
+---
+# NOTE: We insert nameservers before the nameserver from DHCP server
+- template: src=nameservers.j2 dest=/etc/resolvconf/resolv.conf.d/head
+  register: resolvconf_config
+
+- command: resolvconf -u
+  when: resolvconf_config|changed

@@ -1,0 +1,3 @@
+---
+apache2_docroot: /var/www/html
+apache2_ssl_enabled: true

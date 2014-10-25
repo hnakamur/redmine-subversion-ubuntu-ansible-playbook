@@ -1,0 +1,5 @@
+---
+base_packages_names:
+- curl
+- git
+- build-essential

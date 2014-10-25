@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Hiroaki Nakamura
+  description: set hostname
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+  - system
+dependencies: []

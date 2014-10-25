@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Hiroaki Nakamura
+  description: Set up application user
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: GenericLinux
+    versions:
+    - all
+  categories:
+  - system
+dependencies:
+- ruby

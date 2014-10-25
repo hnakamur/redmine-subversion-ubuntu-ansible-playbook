@@ -1,0 +1,4 @@
+---
+- copy: src={{ ssl_certificate_cert_filename }} dest={{ ssl_certificate_cert_path }} owner=root group=root mode=0644
+
+- copy: src={{ ssl_certificate_key_filename }} dest={{ ssl_certificate_key_path }} owner=root group=root mode=0400

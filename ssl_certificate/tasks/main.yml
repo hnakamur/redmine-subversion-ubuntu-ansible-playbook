@@ -1,0 +1,6 @@
+---
+- include: copy_certificate.yml
+  when: not ssl_certificate_create_self_signed
+
+- include: create_self_signed_certificate.yml
+  when: ssl_certificate_create_self_signed

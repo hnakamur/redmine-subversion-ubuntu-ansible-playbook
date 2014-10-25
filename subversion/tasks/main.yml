@@ -1,0 +1,24 @@
+---
+- apt: name={{ item }} state=present
+  with_items:
+  - subversion
+  - subversion-tools
+  - libapache2-svn
+
+- file: path={{ subversion_auth_user_file|dirname }} state=directory owner=root group=www-data mode=0750
+
+# NOTE: python-passlib is needed by Ansible htpasswd module
+- apt: name=python-passlib state=present
+
+- htpasswd: path={{ subversion_auth_user_file }} state=present name={{ item.user }} password={{ item.password }} owner=root group=www-data mode=0640
+  with_items: subversion_user_passwords
+
+- file: path={{ subversion_parent_path }} state=directory owner=www-data group=www-data
+
+- template: src=dav_svn.conf.j2 dest=/etc/apache2/mods-available/dav_svn.conf
+
+- apache2_module: name={{ item }} state=present
+  notify: reload apache2
+  with_items:
+  - dav_svn
+  - ssl

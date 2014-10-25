@@ -1,0 +1,8 @@
+---
+- group: name={{ app_user_groupname }} gid={{ app_user_gid }} state=present
+
+- user: name={{ app_user_username }} group={{ app_user_groupname }} uid={{ app_user_uid }}
+    shell={{ app_user_shell }}
+    state=present
+
+- lineinfile: dest=~{{ app_user_username }}/.bashrc line="export PATH={{ ruby_install_dir }}/bin:$PATH" state=present

@@ -1,0 +1,8 @@
+---
+redmine_version: 2.6.0
+redmine_install_dir: /usr/local/redmine-{{ redmine_version }}
+redmine_bundle_jobs: 4
+redmine_database_name: redmine
+redmine_database_user: redmine
+redmine_database_password: redmine
+redmine_rails_env: production

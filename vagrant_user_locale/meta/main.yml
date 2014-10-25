@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Hiriaoki Nakamura
+  description: set locale environment for vagrant user
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: GenericLinux
+    versions:
+    - all
+  categories:
+  - system
+dependencies: []

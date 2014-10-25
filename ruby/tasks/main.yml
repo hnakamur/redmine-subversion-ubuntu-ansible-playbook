@@ -1,0 +1,19 @@
+---
+- file: path={{ ruby_build_src_dir|dirname }} state=directory
+
+- apt: name={{ item }} state=present
+  with_items:
+  - libssl-dev
+  - libcurl4-openssl-dev
+  - libreadline-dev
+
+- git: repo=https://github.com/sstephenson/ruby-build dest={{ ruby_build_src_dir }} update=yes
+
+- command: ./bin/ruby-build {{ ruby_version }} {{ ruby_install_dir }}
+    chdir={{ ruby_build_src_dir }}
+    creates={{ ruby_install_dir }}/bin/ruby
+  environment:
+    MAKE_OPTS: "-j 4"
+
+- gem: executable={{ ruby_install_dir }}/bin/gem name={{ item }} user_install=no state=present
+  with_items: ruby_global_gems

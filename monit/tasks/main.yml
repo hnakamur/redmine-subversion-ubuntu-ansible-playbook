@@ -1,0 +1,4 @@
+---
+- apt: name=monit state=present
+
+- service: name=monit state=started enabled=yes

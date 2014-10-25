@@ -1,0 +1,14 @@
+---
+galaxy_info:
+  author: Hiroaki Nakamura
+  description: copy ssl certificate or create self-signed certificate
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  categories:
+  - web
+dependencies:
+- hostname

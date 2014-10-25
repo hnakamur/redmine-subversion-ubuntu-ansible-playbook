@@ -1,0 +1,5 @@
+---
+- command: svnadmin create {{ subversion_parent_path }}/{{ svn_repo_name }}
+    creates={{ subversion_parent_path }}/{{ svn_repo_name }}
+
+- file: path={{ subversion_parent_path }}/{{ svn_repo_name }} state=directory owner=www-data group=www-data recurse=yes

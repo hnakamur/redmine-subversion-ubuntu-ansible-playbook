@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Hiroaki Nakamura
+  description: Set up redmine
+  license: MIT
+  min_ansible_version: 1.2
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - development
+dependencies:
+- app_user
+- ruby
+- imagemagick_dev
+- postgresql

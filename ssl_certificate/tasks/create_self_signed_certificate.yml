@@ -1,0 +1,17 @@
+---
+- file: path="{{ ssl_certificate_cert_dir }}" owner=root group=root mode=0755
+
+- file: path="{{ ssl_certificate_key_dir }}" owner=root group=root mode=0700
+
+# umask 0277 is needed to create key file with mode 0400
+- shell: >
+    umask 0277; \
+    openssl req -new -newkey rsa:2048 -sha1 -x509 -nodes \
+      -set_serial {{ ssl_certificate_serial }} \
+      -days {{ ssl_certificate_days }} \
+      -subj "{{ ssl_certificate_subject }}" \
+      -out "{{ ssl_certificate_cert_path }}" \
+      -keyout "{{ ssl_certificate_key_path }}" \
+    creates="{{ ssl_certificate_key_path }}"
+
+- file: path="{{ ssl_certificate_cert_path }}" owner=root group=root mode=0644

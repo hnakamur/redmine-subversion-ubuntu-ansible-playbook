@@ -1,0 +1,6 @@
+---
+app_user_username: app
+app_user_uid: 2000
+app_user_groupname: app
+app_user_gid: 2000
+app_user_shell: /bin/bash

@@ -1,0 +1,12 @@
+---
+ssl_certificate_hostname_fqdn: foo.example.com
+ssl_certificate_create_self_signed: true
+ssl_certificate_subject: /C=JP/ST=Osaka/L=Osaka City/CN={{ ssl_certificate_hostname_fqdn }}
+ssl_certificate_serial: 1
+ssl_certificate_days: 365
+ssl_certificate_cert_dir: /etc/ssl/certs
+ssl_certificate_key_dir: /etc/ssl/private
+ssl_certificate_cert_filename: "{{ ssl_certificate_hostname_fqdn }}.cer"
+ssl_certificate_key_filename: "{{ ssl_certificate_hostname_fqdn  }}.key"
+ssl_certificate_cert_path: "{{ ssl_certificate_cert_dir }}/{{ ssl_certificate_cert_filename }}"
+ssl_certificate_key_path: "{{ ssl_certificate_key_dir }}/{{ ssl_certificate_key_filename }}"

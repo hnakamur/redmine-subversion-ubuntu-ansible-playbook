@@ -1,0 +1,51 @@
+---
+- git: repo=https://github.com/redmine/redmine dest={{ redmine_install_dir }} version={{ redmine_version }}
+  register: redmine_git_cloned
+
+- file: path={{ redmine_install_dir }} state=directory owner={{ app_user_username }} group={{ app_user_groupname }} recurse=yes
+
+
+- template: src=database.yml.j2 dest={{ redmine_install_dir }}/config/database.yml owner={{ app_user_username }} group={{ app_user_groupname }}
+
+- apt: name=python-psycopg2 state=present
+
+- postgresql_db: name={{ redmine_database_name }}
+  sudo_user: postgres
+
+- postgresql_user: db={{ redmine_database_name }} name={{ redmine_database_user }} password={{ redmine_database_password }} state=present
+  sudo_user: postgres
+
+
+- shell: >
+    "{{ ruby_bin_dir }}/bundle" config --jobs | sed -n 's/^Set for your local app[^"]*"\([^"]*\)"/\1/p'
+    chdir={{ redmine_install_dir }}
+  register: redmine_bundle_config_jobs
+  changed_when: False
+  sudo_user: "{{ app_user_username }}"
+
+- command: >
+    "{{ ruby_bin_dir }}/bundle" config --local --jobs {{ redmine_bundle_jobs }}
+    chdir={{ redmine_install_dir }}
+  when: redmine_bundle_config_jobs.stdout != {{ redmine_bundle_jobs }}
+  sudo_user: "{{ app_user_username }}"
+
+
+- command: >
+    "{{ ruby_bin_dir }}/bundle" --path=vendor/bundle --binstubs=vendor/bin
+    chdir={{ redmine_install_dir }}
+  sudo_user: "{{ app_user_username }}"
+
+- command: bundle exec rake generate_secret_token
+    chdir={{ redmine_install_dir }}
+    creates={{ redmine_install_dir }}/config/initializers/secret_token.rb
+  sudo_user: "{{ app_user_username }}"
+  environment:
+    PATH: "{{ ruby_bin }}:{{ lookup('env', 'PATH') }}"
+    RAILS_ENV: "{{ redmine_rails_env }}"
+
+- command: bundle exec rake db:migrate
+    chdir={{ redmine_install_dir }}
+  sudo_user: "{{ app_user_username }}"
+  environment:
+    PATH: "{{ ruby_bin_dir }}:{{ lookup('env', 'PATH') }}"
+    RAILS_ENV: "{{ redmine_rails_env }}"
