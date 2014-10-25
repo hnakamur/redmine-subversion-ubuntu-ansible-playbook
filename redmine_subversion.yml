@@ -27,7 +27,7 @@
     - role: svn_repo
       svn_repo_name: test
     - postgresql
-    - redmine
     - role: monit
       monit_check_interval_seconds: 20
       monit_check_interval_comment: 20-second intervals
+    - redmine

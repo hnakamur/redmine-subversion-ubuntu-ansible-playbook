@@ -16,3 +16,4 @@ dependencies:
 - imagemagick_dev
 - postgresql
 - apache
+- monit
