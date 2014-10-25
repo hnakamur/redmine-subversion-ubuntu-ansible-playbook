@@ -15,7 +15,8 @@
     creates=/etc/apache2/sites-enabled/000-default.conf
   notify: reload apache2
 
-- include: ssl.yml
+- apache2_module: name=ssl state=present
+  notify: reload apache2
   when: apache_ssl_enabled
 
 - service: name=apache2 state=started enabled=yes
